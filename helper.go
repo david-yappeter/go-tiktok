@@ -54,7 +54,7 @@ func CheckEmpty(vals ...string) bool {
 
 type Param struct {
 	AccessToken string `validate:"required"`
-	ShopChiper  string `validate:"required"`
+	ShopCipher  string `validate:"required"`
 	ShopId      string `validate:"required"`
 }
 
@@ -65,7 +65,7 @@ func (c *Client) params(p Param) (param url.Values, err error) {
 	}
 	param = url.Values{}
 	param.Set("access_token", p.AccessToken)
-	param.Set("shop_cipher", p.ShopChiper)
+	param.Set("shop_cipher", p.ShopCipher)
 	param.Set("shop_id", p.ShopId)
 	return
 }
