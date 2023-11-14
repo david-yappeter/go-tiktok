@@ -51,3 +51,12 @@ type WarehouseDeliveryOption struct {
 type WarehouseDeliveryOptionList struct {
 	DeliveryOptions []WarehouseDeliveryOption `json:"delivery_options"`
 }
+
+type ShippingProvider struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type ServiceProviderList struct {
+	ShippingProviders []ShippingProvider `json:"shipping_providers"`
+}
