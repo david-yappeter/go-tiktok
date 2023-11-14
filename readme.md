@@ -14,6 +14,9 @@ Go SDK for Tiktok Shop Open Platform latest API version (202309).
   - [x] GetOrderDetail
 - [x] Product API
   - [x] GetProduct
+- [x] Logistic API
+  - [x] GetWarehouseList
+  - [x] GetWarehouseDeliveryOptions
 
 ### TODO
 

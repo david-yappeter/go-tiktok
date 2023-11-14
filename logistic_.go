@@ -25,3 +25,29 @@ type Warehouse struct {
 type WarehouseList struct {
 	Warehouses []Warehouse `json:"warehouses"`
 }
+
+type WarehouseDeliveryOptionDimensionLimit struct {
+	MaxHeight int    `json:"max_height"`
+	MaxLength int    `json:"max_length"`
+	MaxWidth  int    `json:"max_width"`
+	Unit      string `json:"unit"`
+}
+
+type WarehouseDeliveryOptionWeightLimit struct {
+	MaxWeight int    `json:"max_weight"`
+	MinWeight int    `json:"min_weight"`
+	Unit      string `json:"unit"`
+}
+
+type WarehouseDeliveryOption struct {
+	Id          string                                `json:"id"`
+	Name        string                                `json:"name"`
+	Type        string                                `json:"type"`
+	Description string                                `json:"description"`
+	WeightLimit WarehouseDeliveryOptionWeightLimit    `json:"weight_limit"`
+	Dimension   WarehouseDeliveryOptionDimensionLimit `json:"dimension_limit"`
+}
+
+type WarehouseDeliveryOptionList struct {
+	DeliveryOptions []WarehouseDeliveryOption `json:"delivery_options"`
+}
