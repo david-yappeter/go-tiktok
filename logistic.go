@@ -37,8 +37,8 @@ func (c *Client) GetWarehouseDeliveryOptions(ctx context.Context, p Param, wareh
 	return
 }
 
-// GetWarehouseDetail get warehouse detail.
-func (c *Client) GetServiceProviders(ctx context.Context, p Param, deliveryOptionId string) (list ServiceProviderList, err error) {
+// GetShippingProviders get shipping providers.
+func (c *Client) GetShippingProviders(ctx context.Context, p Param, deliveryOptionId string) (list ShippingProviderList, err error) {
 	param, err := c.params(p)
 	if err != nil {
 		return
@@ -46,7 +46,7 @@ func (c *Client) GetServiceProviders(ctx context.Context, p Param, deliveryOptio
 
 	err = c.Get(
 		ctx,
-		fmt.Sprintf("/logistics/%s/delivery_options/%s/service_providers", c.version, deliveryOptionId),
+		fmt.Sprintf("/logistics/%s/delivery_options/%s/shipping_providers", c.version, deliveryOptionId),
 		param,
 		&list,
 	)

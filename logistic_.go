@@ -57,6 +57,6 @@ type ShippingProvider struct {
 	Name string `json:"name"`
 }
 
-type ServiceProviderList struct {
+type ShippingProviderList struct {
 	ShippingProviders []ShippingProvider `json:"shipping_providers"`
 }
