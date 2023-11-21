@@ -130,7 +130,7 @@ func (c *Client) cursorPaginationParam(parent url.Values, cp CursorPaginationPar
 		param = parent
 	}
 
-	param.Set("next_page_token", cp.NextPageToken)
+	param.Set("page_token", cp.NextPageToken)
 	param.Set("page_size", strconv.Itoa(cp.PageSize))
 	if cp.SortField != nil {
 		param.Set("sort_field", *cp.SortField)
