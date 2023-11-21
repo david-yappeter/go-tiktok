@@ -69,3 +69,10 @@ func (c *Client) params(p Param) (param url.Values, err error) {
 	param.Set("shop_id", p.ShopId)
 	return
 }
+
+type CursorPaginationParam struct {
+	NextPageToken string `validate:"required"`
+	PageSize      string `validate:"required,min=10"`
+	SortField     string `validate:"required,oneof=create_time update_time"`
+	SortOrder     string `validate:"required,oneof=ASC DESC"`
+}

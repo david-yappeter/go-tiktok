@@ -70,9 +70,9 @@ type PackageWeight struct {
 	Value string `json:"value"`
 }
 
-type ProductData struct {
+type ProductDetailData struct {
 	Id                string             `json:"id"`
-	Status            string             `json:"status"` // 1-draft、2-pending、3-failed(initial creation)、4-live、5-seller_deactivated、6-platform_deactivated、7-freeze 8-deleted
+	Status            string             `json:"status"`
 	Title             string             `json:"title"`
 	CategoryChains    []Category         `json:"category_chains"`
 	Brand             Brand              `json:"brand"`
@@ -85,4 +85,24 @@ type ProductData struct {
 	CreateTime        int64              `json:"create_time"`
 	ProductAttributes []ProductAttribute `json:"product_attributes"`
 	Skus              []SKUData          `json:"skus"`
+}
+
+type SearchProductRequest struct {
+	Status *string `json:"status" validate:"omitempty, oneof=ALL DRAFT PENDING FAILED ACTIVATE SELLER_DEACTIVATED PLATFORM_DEACTIVATED FREEZE DELETED"`
+}
+
+type ProductData struct {
+	Id           string    `json:"id"`
+	Status       string    `json:"status"`
+	Title        string    `json:"title"`
+	Skus         []SKUData `json:"skus"`
+	SalesRegions []string  `json:"sales_regions"`
+	CreateTime   int64     `json:"create_time"`
+	UpdateTime   int64     `json:"update_time"`
+}
+
+type ProductList struct {
+	Products      []ProductData `json:"products"`
+	TotalCount    int           `json:"total_count"`
+	NextPageToken string        `json:"next_page_token"`
 }
