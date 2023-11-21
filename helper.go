@@ -116,7 +116,7 @@ type CursorPaginationParam struct {
 	NextPageToken string
 	PageSize      int     `validate:"min=10,max=100"`
 	SortField     *string `validate:"omitempty,oneof=create_time update_time"`
-	SortOrder     *string `validate:"omitenpty,oneof=ASC DESC"`
+	SortOrder     *string `validate:"omitempty,oneof=ASC DESC"`
 }
 
 func (c *Client) cursorPaginationParam(parent url.Values, cp CursorPaginationParam) (param url.Values, err error) {
