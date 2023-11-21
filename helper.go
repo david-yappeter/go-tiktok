@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"strconv"
 )
 
 func sign(req *http.Request, secret string) string {
@@ -73,7 +74,6 @@ func generateSHA256(input, secret string) string {
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-
 func safeGet(param url.Values, key string) string {
 	if param == nil {
 		return ""
@@ -94,13 +94,13 @@ func CheckEmpty(vals ...string) bool {
 	return false
 }
 
-type Param struct {
+type CommonParam struct {
 	AccessToken string `validate:"required"`
 	ShopCipher  string `validate:"required"`
 	ShopId      string `validate:"required"`
 }
 
-func (c *Client) params(p Param) (param url.Values, err error) {
+func (c *Client) commonParam(p CommonParam) (param url.Values, err error) {
 	err = c.validate.Struct(p)
 	if err != nil {
 		return
@@ -113,8 +113,30 @@ func (c *Client) params(p Param) (param url.Values, err error) {
 }
 
 type CursorPaginationParam struct {
-	NextPageToken string `validate:"required"`
-	PageSize      string `validate:"required,min=10"`
-	SortField     string `validate:"required,oneof=create_time update_time"`
-	SortOrder     string `validate:"required,oneof=ASC DESC"`
+	NextPageToken string
+	PageSize      int     `validate:"min=10,max=100"`
+	SortField     *string `validate:"omitempty,oneof=create_time update_time"`
+	SortOrder     *string `validate:"omitenpty,oneof=ASC DESC"`
+}
+
+func (c *Client) cursorPaginationParam(parent url.Values, cp CursorPaginationParam) (param url.Values, err error) {
+	err = c.validate.Struct(cp)
+	if err != nil {
+		return
+	}
+
+	param = url.Values{}
+	if parent != nil {
+		param = parent
+	}
+
+	param.Set("next_page_token", cp.NextPageToken)
+	param.Set("page_size", strconv.Itoa(cp.PageSize))
+	if cp.SortField != nil {
+		param.Set("sort_field", *cp.SortField)
+	}
+	if cp.SortOrder != nil {
+		param.Set("sort_order", *cp.SortOrder)
+	}
+	return
 }

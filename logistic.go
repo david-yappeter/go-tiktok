@@ -6,8 +6,8 @@ import (
 )
 
 // GetWarehouseList get warehouse list.
-func (c *Client) GetWarehouseList(ctx context.Context, p Param) (list WarehouseList, err error) {
-	param, err := c.params(p)
+func (c *Client) GetWarehouseList(ctx context.Context, p CommonParam) (list WarehouseList, err error) {
+	param, err := c.commonParam(p)
 	if err != nil {
 		return
 	}
@@ -22,8 +22,8 @@ func (c *Client) GetWarehouseList(ctx context.Context, p Param) (list WarehouseL
 }
 
 // GetWarehouseDetail get warehouse detail.
-func (c *Client) GetWarehouseDeliveryOptions(ctx context.Context, p Param, warehouseId string) (list WarehouseDeliveryOptionList, err error) {
-	param, err := c.params(p)
+func (c *Client) GetWarehouseDeliveryOptions(ctx context.Context, p CommonParam, warehouseId string) (list WarehouseDeliveryOptionList, err error) {
+	param, err := c.commonParam(p)
 	if err != nil {
 		return
 	}
@@ -38,8 +38,8 @@ func (c *Client) GetWarehouseDeliveryOptions(ctx context.Context, p Param, wareh
 }
 
 // GetShippingProviders get shipping providers.
-func (c *Client) GetShippingProviders(ctx context.Context, p Param, deliveryOptionId string) (list ShippingProviderList, err error) {
-	param, err := c.params(p)
+func (c *Client) GetShippingProviders(ctx context.Context, p CommonParam, deliveryOptionId string) (list ShippingProviderList, err error) {
+	param, err := c.commonParam(p)
 	if err != nil {
 		return
 	}

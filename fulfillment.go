@@ -6,8 +6,8 @@ import (
 )
 
 // GetTracking get tracking.
-func (c *Client) GetTracking(ctx context.Context, p Param, orderId string) (list TrackingList, err error) {
-	param, err := c.params(p)
+func (c *Client) GetTracking(ctx context.Context, p CommonParam, orderId string) (list TrackingList, err error) {
+	param, err := c.commonParam(p)
 	if err != nil {
 		return
 	}

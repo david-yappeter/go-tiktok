@@ -6,18 +6,19 @@ import (
 )
 
 // GetShippingProviders get shipping providers.
-func (c *Client) SearchReturns(ctx context.Context, p Param, req SearchReturnRequest, nextPageToken string, pageSize string) (list ShippingProviderList, err error) {
-	param, err := c.params(p)
+func (c *Client) SearchReturns(ctx context.Context, p CommonParam, cp CursorPaginationParam, req SearchReturnRequest) (list ShippingProviderList, err error) {
+	param, err := c.commonParam(p)
 	if err != nil {
+		return
+	}
+
+	if param, err = c.cursorPaginationParam(param, cp); err != nil {
 		return
 	}
 
 	if err = c.validate.Struct(&req); err != nil {
 		return
 	}
-
-	param.Set("next_page_token", nextPageToken)
-	param.Set("page_size", pageSize)
 
 	err = c.Post(
 		ctx,
@@ -28,4 +29,3 @@ func (c *Client) SearchReturns(ctx context.Context, p Param, req SearchReturnReq
 	)
 	return
 }
-
