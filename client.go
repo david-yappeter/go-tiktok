@@ -105,7 +105,6 @@ func (c *Client) prepareParam(path string, param url.Values) url.Values {
 	param.Set("app_key", c.appKey)
 	timestamp := Timestamp()
 	param.Set("timestamp", timestamp)
-	param.Set("sign", generateSHA256(path, param, c.appSecret))
 	param.Set("access_token", ak)
 	return param
 }
@@ -129,6 +128,10 @@ func (c *Client) request(ctx context.Context, method, base, path string, param u
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("x-tts-access-token", safeGet(param, "access_token"))
 	req = req.WithContext(ctx)
+
+	// append sign to the query param
+	param.Set("sign", sign(req, c.appSecret))
+	req.URL.RawQuery = param.Encode()
 
 	resp, err := c.opt.client.Do(req)
 	if err != nil {

@@ -1,36 +1,78 @@
 package gotiktok
 
 import (
+	"bytes"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"io"
+	"mime"
+	"net/http"
 	"net/url"
 	"sort"
 )
 
-func generateSHA256(path string, queries url.Values, secret string) string {
+func sign(req *http.Request, secret string) string {
+	queries := req.URL.Query()
+
+	// extract all query parameters excluding sign and access_token
 	keys := make([]string, len(queries))
 	idx := 0
 	for k := range queries {
-		keys[idx] = k
-		idx++
+		// params except 'sign' & 'access_token'
+		if k != "sign" && k != "access_token" {
+			keys[idx] = k
+			idx++
+		}
 	}
+
+	// reorder the parameters' key in alphabetical order
 	sort.Slice(keys, func(i, j int) bool {
 		return keys[i] < keys[j]
 	})
-	input := path
+
+	// Concatenate all the parameters in the format of {key}{value}
+	input := ""
 	for _, key := range keys {
 		input = input + key + queries.Get(key)
 	}
+
+	// append the request path
+	input = req.URL.Path + input
+
+	// if the request header Content-type is not multipart/form-data, append body to the end
+	mediaType, _, _ := mime.ParseMediaType(req.Header.Get("Content-type"))
+	if mediaType != "multipart/form-data" {
+		if req.Body == nil {
+			req.Body = http.NoBody
+		} else {
+			body, _ := io.ReadAll(req.Body)
+			input = input + string(body)
+
+			req.Body.Close()
+			// reset body after reading from the original
+			req.Body = io.NopCloser(bytes.NewReader(body))
+		}
+	}
+
+	// wrap the string generated in step 5 with the App secret
 	input = secret + input + secret
 
+	return generateSHA256(input, secret)
+}
+
+func generateSHA256(input, secret string) string {
+	// encode the digest byte stream in hexadecimal and use sha256 to generate sign with salt(secret)
 	h := hmac.New(sha256.New, []byte(secret))
+
 	if _, err := h.Write([]byte(input)); err != nil {
+		// TODO error log
 		return ""
 	}
 
 	return hex.EncodeToString(h.Sum(nil))
 }
+
 
 func safeGet(param url.Values, key string) string {
 	if param == nil {
