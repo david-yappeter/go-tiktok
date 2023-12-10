@@ -2,7 +2,7 @@ package gotiktok
 
 type SearchReturnRequest struct {
 	Locale       *string  `json:"locale" validate:"omitempty,oneof=en-US id-ID"`
-	OrderIds     []string `json:"order_ids" validate:"omitempty,dive,not_empty"`
+	OrderIds     []string `json:"order_ids" validate:"omitempty"`
 	CreateTimeGE *int     `json:"create_time_ge" validate:"omitempty"`
 	CreateTimeLT *int     `json:"create_time_lt" validate:"omitempty"`
 	Status       *string  `json:"status" validate:"omitempty,oneof=RETURN_OR_REFUND_REQUEST_PENDING RETURN_OR_REFUND_REQUEST_REJECTED AWAITING_BUYER_SHIP BUYER_SHIPPED_ITEM REJECT_RECEIVE_PACKAGE RETURN_OR_REFUND_REQUEST_SUCCESS RETURN_OR_REFUND_REQUEST_CANCEL RETURN_OR_REFUND_REQUEST_COMPLETE"`
