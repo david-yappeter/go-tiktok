@@ -6,7 +6,7 @@ import (
 )
 
 // GetShippingProviders get shipping providers.
-func (c *Client) SearchReturns(ctx context.Context, p CommonParam, cp CursorPaginationParam, req SearchReturnRequest) (list ShippingProviderList, err error) {
+func (c *Client) SearchReturns(ctx context.Context, p CommonParam, cp CursorPaginationParam, req SearchReturnRequest) (list SearchReturnResponse, err error) {
 	param, err := c.commonParam(p)
 	if err != nil {
 		return
