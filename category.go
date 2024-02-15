@@ -55,3 +55,19 @@ func (c *Client) GetAttributes(ctx context.Context, p CommonParam, categoryId st
 	)
 	return
 }
+
+func (c *Client) GetRecommendCategory(ctx context.Context, p CommonParam, request GetRecommendCategoryRequest) (response GetRecommendCategoryResponse, err error) {
+
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Get(
+		ctx,
+		fmt.Sprintf("/product/%s/categories/recommend", c.version),
+		param,
+		&response,
+	)
+	return
+}

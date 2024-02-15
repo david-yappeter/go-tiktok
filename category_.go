@@ -60,9 +60,14 @@ type GetAttributesResponse struct {
 }
 
 type GetAttributesResponseAttribute struct {
-	Id                  string                                `json:"id"`
-	Name                string                                `json:"name"`
-	Type                string                                `json:"type"`
+	Id   string `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
+	/*
+		Values:
+		SALES_PROPERTY
+		PRODUCT_PROPERTY
+	*/
 	IsRequired          bool                                  `json:"is_required"`
 	Values              []GetAttributesResponseAttributeValue `json:"values"`
 	IsMultipleSelection bool                                  `json:"is_multiple_selection"`
@@ -72,4 +77,32 @@ type GetAttributesResponseAttribute struct {
 type GetAttributesResponseAttributeValue struct {
 	Id   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type GetRecommendCategoryRequest struct {
+	ProductTitle string                             `json:"product_title"`
+	Description  *string                            `json:"description"`
+	Images       []GetRecommendCategoryRequestImage `json:"images"`
+}
+
+type GetRecommendCategoryRequestImage struct {
+	Uri string `json:"uri"`
+}
+
+type GetRecommendCategoryResponse struct {
+	LeafCategoryId string                                 `json:"leaf_category_id"`
+	Categories     []GetRecommendCategoryResponseCategory `json:"categories"`
+}
+
+type GetRecommendCategoryResponseCategory struct {
+	Id                 string   `json:"id"`
+	Name               string   `json:"name"`
+	Level              int      `json:"level"`
+	IsLeaf             bool     `json:"is_leaf"`
+	PermissionStatuses []string `json:"permission_statuses"`
+	/*
+		VALUES:
+		AVAILABLE
+		INVITE_ONLY
+	*/
 }
