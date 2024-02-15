@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"net/url"
+	"path/filepath"
+	"strconv"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -63,7 +66,7 @@ func New(appKey, appSecret, version string, opts ...Option) (c *Client, err erro
 // Note: Timestamp, appkey and signature will auto-management by action.
 func (c *Client) Get(ctx context.Context, path string, param url.Values, resp interface{}) (err error) {
 	param = c.prepareParam(path, param)
-	err = c.request(ctx, http.MethodGet, c.opt.endpoint, path, param, nil, resp)
+	err = c.requestJson(ctx, http.MethodGet, c.opt.endpoint, path, param, nil, resp)
 	return
 }
 
@@ -72,7 +75,7 @@ func (c *Client) Get(ctx context.Context, path string, param url.Values, resp in
 func (c *Client) Post(ctx context.Context, path string, param url.Values, body interface{}, resp interface{}) (err error) {
 	param = c.prepareParam(path, param)
 	r := c.prepareBody(body)
-	err = c.request(ctx, http.MethodPost, c.opt.endpoint, path, param, r, resp)
+	err = c.requestJson(ctx, http.MethodPost, c.opt.endpoint, path, param, r, resp)
 	return
 }
 
@@ -81,7 +84,7 @@ func (c *Client) Post(ctx context.Context, path string, param url.Values, body i
 func (c *Client) Put(ctx context.Context, path string, param url.Values, body interface{}, resp interface{}) (err error) {
 	param = c.prepareParam(path, param)
 	r := c.prepareBody(body)
-	err = c.request(ctx, http.MethodPut, c.opt.endpoint, path, param, r, resp)
+	err = c.requestJson(ctx, http.MethodPut, c.opt.endpoint, path, param, r, resp)
 	return
 }
 
@@ -93,7 +96,7 @@ func (c *Client) Delete(ctx context.Context, path string, param url.Values, body
 	if body != nil {
 		r = c.prepareBody(body)
 	}
-	err = c.request(ctx, http.MethodDelete, c.opt.endpoint, path, param, r, resp)
+	err = c.requestJson(ctx, http.MethodDelete, c.opt.endpoint, path, param, r, resp)
 	return
 }
 
@@ -116,7 +119,7 @@ func (c *Client) prepareBody(body interface{}) (buf io.Reader) {
 	return
 }
 
-func (c *Client) request(ctx context.Context, method, base, path string, param url.Values, r io.Reader, body interface{}) (err error) {
+func (c *Client) requestJson(ctx context.Context, method, base, path string, param url.Values, r io.Reader, body interface{}) (err error) {
 	var req *http.Request
 	target := base + path + "?" + param.Encode()
 	c.opt.logger.Printf("%s %s", method, target)
@@ -126,6 +129,81 @@ func (c *Client) request(ctx context.Context, method, base, path string, param u
 	}
 	req.Header.Set("User-Agent", "Go-tiktok/v0")
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("x-tts-access-token", safeGet(param, "access_token"))
+	req = req.WithContext(ctx)
+
+	// append sign to the query param
+	param.Set("sign", sign(req, c.appSecret))
+	req.URL.RawQuery = param.Encode()
+
+	resp, err := c.opt.client.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return
+	}
+	var res Response
+	defer func() {
+		c.opt.logger.Printf("request_id=%s resp=%s", res.RequestID, string(b))
+	}()
+	err = json.Unmarshal(b, &res)
+	if err != nil {
+		return
+	}
+	if res.Code != 0 {
+		err = &APIError{
+			Code:      res.Code,
+			Message:   res.Message,
+			RequestID: res.RequestID,
+		}
+		return
+	}
+
+	if body != nil {
+		err = json.Unmarshal(res.Data, body)
+	}
+	return
+}
+
+func (c *Client) requestMultipart(ctx context.Context, method, base, path string, param url.Values, fileParams map[string][]io.Reader, body interface{}) (err error) {
+	var req *http.Request
+	target := base + path + "?" + param.Encode()
+	c.opt.logger.Printf("%s %s", method, target)
+
+	bodyBuf := &bytes.Buffer{}
+	bodyWriter := multipart.NewWriter(bodyBuf)
+
+	for paramName, files := range fileParams {
+		for i, file := range files {
+			fileWriter, err := bodyWriter.CreateFormFile(paramName+strconv.Itoa(i), filepath.Base(paramName+strconv.Itoa(i)))
+			if err != nil {
+				return err
+			}
+			_, err = io.Copy(fileWriter, file)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for key, values := range param {
+		for _, value := range values {
+			_ = bodyWriter.WriteField(key, value)
+		}
+	}
+
+	bodyWriter.Close()
+
+	req, err = http.NewRequest(method, target, bodyBuf)
+	if err != nil {
+		return
+	}
+	req.Header.Set("User-Agent", "Go-tiktok/v0")
+	req.Header.Set("Content-Type", bodyWriter.FormDataContentType())
 	req.Header.Set("x-tts-access-token", safeGet(param, "access_token"))
 	req = req.WithContext(ctx)
 

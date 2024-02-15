@@ -44,3 +44,19 @@ func (c *Client) GetProductDetail(ctx context.Context, p CommonParam, productID 
 	)
 	return
 }
+
+func (c *Client) CreateProduct(ctx context.Context, p CommonParam, request SearchProductRequest) (response ProductList, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products", c.version),
+		param,
+		request,
+		&response,
+	)
+	return
+}

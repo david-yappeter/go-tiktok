@@ -91,6 +91,93 @@ type SearchProductRequest struct {
 	Status *string `json:"status" validate:"omitempty,oneof=ALL DRAFT PENDING FAILED ACTIVATE SELLER_DEACTIVATED PLATFORM_DEACTIVATED FREEZE DELETED"`
 }
 
+type CreateProductRequest struct {
+	SaveMode *string `json:"save_mode"`
+	/*
+		Valid Values:
+		AS_DRAFT, LISTING
+		DEFAULT: LISTING
+	*/
+	Description       string                               `json:"description"`
+	CategoryId        string                               `json:"category_id"`
+	BrandId           *string                              `json:"brand_id"`
+	MainImages        []CreateProductRequestMainImage      `json:"main_images"`
+	Skus              []CreateProductRequestSku            `json:"skus"`
+	Title             string                               `json:"title"`
+	IsCodAllowed      bool                                 `json:"is_cod_allowed"`
+	PackageDimensions *PackageDimensions                   `json:"package_dimensions"`
+	ProductAttributes CreateProductRequestProductAttribute `json:"product_attribute"`
+	PackageWeight     PackageWeight                        `json:"package_weight"`
+	Video             *CreateProductRequestVideo           `json:"video"`
+	SizeChart         *CreateProductRequestSizeChart       `json:"size_chart"`
+}
+
+type CreateProductRequestMainImage struct {
+	Uri string `json:"uri"`
+}
+
+type CreateProductRequestSku struct {
+	Inventory []CreateProductRequestSkuInventory `json:"inventory"`
+	SellerSku *string                            `json:"seller_sku"`
+
+	Price CreateProductRequestSkuPrice `json:"original_price"`
+}
+
+type CreateProductRequestSkuInventory struct {
+	WarehouseId string `json:"warehouse_id"`
+	Quantity    int    `json:"quantity"`
+}
+
+type CreateProductRequestSkuPrice struct {
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
+}
+
+type CreateProductRequestSizeChart struct {
+	Image *CreateProductRequestSizeChartImage `json:"image"`
+}
+
+type CreateProductRequestSizeChartImage struct {
+	Uri string `json:"uri"`
+}
+
+type CreateProductRequestProductAttribute struct {
+	Id     string                                      `json:"id"`
+	Values []CreateProductRequestProductAttributeValue `json:"values"`
+}
+
+type CreateProductRequestProductAttributeValue struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type CreateProductRequestPackageWeight struct {
+	Value string `json:"value"`
+	Unit  string `json:"unit"`
+}
+
+type CreateProductRequestVideo struct {
+	Id string `json:"id"`
+}
+
+type CreateProductRequestProductVideo struct {
+	VideoId string `json:"video_id"`
+}
+
+type UpdateProductStockRequest struct {
+	ProductId string `json:"product_id"`
+}
+
+type UpdateProductStockRequestSku struct {
+	Id         string                                  `json:"id"`
+	StockInfos []UpdateProductStockRequestSkuStockInfo `json:"stock_infos"`
+}
+
+type UpdateProductStockRequestSkuStockInfo struct {
+	WarehouseId    string `json:"warehouse_id"`
+	AvailableStock int    `json:"available_stock"`
+}
+
 type ProductData struct {
 	Id           string    `json:"id"`
 	Status       string    `json:"status"`
@@ -105,4 +192,26 @@ type ProductList struct {
 	Products      []ProductData `json:"products"`
 	TotalCount    int           `json:"total_count"`
 	NextPageToken string        `json:"next_page_token"`
+}
+
+type CreateProductResponse struct {
+	ProductId string                         `json:"product_id"`
+	Skus      []CreateProductResponseSku     `json:"skus"`
+	Warnings  []CreateProductResponseWarning `json:"warnings"`
+}
+
+type CreateProductResponseSku struct {
+	Id              string                                   `json:"id"`
+	SellerSku       string                                   `json:"seller_sku"`
+	SalesAttributes []CreateProductResponseSkuSalesAttribute `json:"sales_attributes"`
+	ExternalSkuId   string                                   `json:"external_sku_id"`
+}
+
+type CreateProductResponseSkuSalesAttribute struct {
+	AttributeId string `json:"attribute_id"`
+	ValueId     string `json:"value_id"`
+}
+
+type CreateProductResponseWarning struct {
+	Message string `json:"message"`
 }

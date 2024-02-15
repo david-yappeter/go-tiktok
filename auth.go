@@ -23,10 +23,15 @@ func (c *Client) GetAccessToken(ctx context.Context, code string) (resp AccessTo
 	param.Set("app_secret", c.appSecret)
 	param.Set("auth_code", code)
 	param.Set("grant_type", "authorized_code")
-	err = c.request(
-		ctx, http.MethodGet, AuthBaseURL,
+	err = c.requestJson(
+		ctx,
+		http.MethodGet,
+		AuthBaseURL,
 		"/api/v2/token/get",
-		param, nil, &resp)
+		param,
+		nil,
+		&resp,
+	)
 	return
 }
 
@@ -36,9 +41,14 @@ func (c *Client) RefreshToken(ctx context.Context, refreshToken string) (resp Ac
 	param.Set("app_secret", c.appSecret)
 	param.Set("refresh_token", refreshToken)
 	param.Set("grant_type", "refresh_token")
-	err = c.request(
-		ctx, http.MethodGet, AuthBaseURL,
+	err = c.requestJson(
+		ctx,
+		http.MethodGet,
+		AuthBaseURL,
 		"/api/v2/token/refresh",
-		param, nil, &resp)
+		param,
+		nil,
+		&resp,
+	)
 	return
 }
