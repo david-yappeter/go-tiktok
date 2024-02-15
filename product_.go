@@ -215,3 +215,97 @@ type CreateProductResponseSkuSalesAttribute struct {
 type CreateProductResponseWarning struct {
 	Message string `json:"message"`
 }
+
+type UpdateProductInventoryRequest struct {
+	Skus []UpdateProductInventoryRequestSku `json:"skus"`
+}
+
+type UpdateProductInventoryRequestSku struct {
+	Id        string                                      `json:"id"`
+	Inventory []UpdateProductInventoryRequestSkuInventory `json:"inventory"`
+}
+
+type UpdateProductInventoryRequestSkuInventory struct {
+	WarehouseId string `json:"warehouse_id"`
+	Quantity    int    `json:"quantity"`
+}
+
+type UpdateProductInventoryResponse struct {
+	Errors []UpdateProductInventoryResponseError `json:"errors"`
+}
+
+type UpdateProductInventoryResponseError struct {
+	Code    int                                       `json:"code"`
+	Message string                                    `json:"message"`
+	Detail  UpdateProductInventoryResponseErrorDetail `json:"detail"`
+}
+
+type UpdateProductInventoryResponseErrorDetail struct {
+	SkuId       string                                                `json:"sku_id"`
+	ExtraErrors []UpdateProductInventoryResponseErrorDetailExtraError `json:"extra_errors"`
+}
+
+type UpdateProductInventoryResponseErrorDetailExtraError struct {
+	WarehouseId string `json:"warehouse_id"`
+	Code        int    `json:"code"`
+	Message     string `json:"message"`
+}
+
+type UpdateProductPriceRequest struct {
+	Skus []UpdateProductPriceRequestSku `json:"skus"`
+}
+
+type UpdateProductPriceRequestSku struct {
+	Id    string                            `json:"id"`
+	Price UpdateProductPriceRequestSkuPrice `json:"price"`
+}
+
+type UpdateProductPriceRequestSkuPrice struct {
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
+}
+
+type UpdateProductPriceResponse struct {
+}
+
+type ActivateProductRequest struct {
+	ProductIds []string `json:"product_ids"`
+}
+
+type ActivateProductResponse struct {
+	Errors []ActivateProductResponseError `json:"errors"`
+}
+
+type ActivateProductResponseError struct {
+	Code    int                                `json:"code"`
+	Message string                             `json:"message"`
+	Detail  ActivateProductResponseErrorDetail `json:"detail"`
+}
+
+type ActivateProductResponseErrorDetail struct {
+	ProductId   string                                         `json:"product_id"`
+	ExtraErrors []ActivateProductResponseErrorDetailExtraError `json:"extra_errors"`
+}
+
+type ActivateProductResponseErrorDetailExtraError struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
+type DeactivateProductRequest struct {
+	ProductIds []string `json:"product_ids"`
+}
+
+type DeactivateProductResponse struct {
+	Errors []DeactivateProductResponseError `json:"errors"`
+}
+
+type DeactivateProductResponseError struct {
+	Code    int                                  `json:"code"`
+	Message string                               `json:"message"`
+	Detail  DeactivateProductResponseErrorDetail `json:"detail"`
+}
+
+type DeactivateProductResponseErrorDetail struct {
+	ProductId string `json:"product_id"`
+}

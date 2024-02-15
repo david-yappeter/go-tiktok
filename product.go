@@ -60,3 +60,67 @@ func (c *Client) CreateProduct(ctx context.Context, p CommonParam, request Searc
 	)
 	return
 }
+
+func (c *Client) UpdateProductInventory(ctx context.Context, p CommonParam, productId string, request UpdateProductInventoryRequest) (response UpdateProductInventoryResponse, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products/%s/inventory/update", c.version, productId),
+		param,
+		request,
+		&response,
+	)
+	return
+}
+
+func (c *Client) UpdateProductPrice(ctx context.Context, p CommonParam, productId string, request UpdateProductPriceRequest) (response UpdateProductPriceResponse, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products/%s/prices/update", c.version, productId),
+		param,
+		request,
+		&response,
+	)
+	return
+}
+
+func (c *Client) ActivateProduct(ctx context.Context, p CommonParam, request ActivateProductRequest) (response UpdateProductPriceResponse, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products/activate", c.version),
+		param,
+		request,
+		&response,
+	)
+	return
+}
+
+func (c *Client) DeactivateProduct(ctx context.Context, p CommonParam, request DeactivateProductRequest) (response UpdateProductPriceResponse, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products/deactivate", c.version),
+		param,
+		request,
+		&response,
+	)
+	return
+}

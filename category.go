@@ -23,3 +23,35 @@ func (c *Client) GetCategories(ctx context.Context, p CommonParam, request GetCa
 	)
 	return
 }
+
+func (c *Client) GetCategoryRules(ctx context.Context, p CommonParam, categoryId string) (response GetCategoryRulesResponse, err error) {
+
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Get(
+		ctx,
+		fmt.Sprintf("/product/%s/categories/%s/rules", c.version, categoryId),
+		param,
+		&response,
+	)
+	return
+}
+
+func (c *Client) GetAttributes(ctx context.Context, p CommonParam, categoryId string, request GetAttributesRequest) (response GetAttributesResponse, err error) {
+
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Get(
+		ctx,
+		fmt.Sprintf("/product/%s/categories/%s/attributes", c.version, categoryId),
+		param,
+		&response,
+	)
+	return
+}
