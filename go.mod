@@ -1,4 +1,4 @@
-module github.com/LouisAldorio/go-tiktok
+module github.com/david-yappeter/go-tiktok
 
 go 1.18
 
