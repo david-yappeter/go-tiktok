@@ -63,10 +63,11 @@ func (c *Client) GetRecommendCategory(ctx context.Context, p CommonParam, reques
 		return
 	}
 
-	err = c.Get(
+	err = c.Post(
 		ctx,
 		fmt.Sprintf("/product/%s/categories/recommend", c.version),
 		param,
+		request,
 		&response,
 	)
 	return
