@@ -100,16 +100,16 @@ type CreateProductRequest struct {
 	*/
 	Description       string                                 `json:"description"`
 	CategoryId        string                                 `json:"category_id"`
-	BrandId           *string                                `json:"brand_id"`
+	BrandId           *string                                `json:"brand_id,omitempty"`
 	MainImages        []CreateProductRequestMainImage        `json:"main_images"`
 	Skus              []CreateProductRequestSku              `json:"skus"`
 	Title             string                                 `json:"title"`
 	IsCodAllowed      bool                                   `json:"is_cod_allowed"`
-	PackageDimensions *PackageDimensions                     `json:"package_dimensions"`
+	PackageDimensions *PackageDimensions                     `json:"package_dimensions,omitempty"`
 	ProductAttributes []CreateProductRequestProductAttribute `json:"product_attribute"`
 	PackageWeight     PackageWeight                          `json:"package_weight"`
-	Video             *CreateProductRequestVideo             `json:"video"`
-	SizeChart         *CreateProductRequestSizeChart         `json:"size_chart"`
+	Video             *CreateProductRequestVideo             `json:"video,omitempty"`
+	SizeChart         *CreateProductRequestSizeChart         `json:"size_chart,omitempty"`
 }
 
 type CreateProductRequestMainImage struct {
