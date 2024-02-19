@@ -14,6 +14,8 @@ func (c *Client) UploadImage(ctx context.Context, p CommonParam, request UploadP
 		return
 	}
 
+	param.Del("shop_cipher")
+
 	if request.UseCase != nil {
 		param.Set("use_case", *request.UseCase)
 	}
