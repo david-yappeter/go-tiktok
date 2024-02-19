@@ -30,8 +30,8 @@ func (c *Client) UploadImage(ctx context.Context, p CommonParam, request UploadP
 		c.opt.endpoint,
 		path,
 		param,
-		map[string][]io.Reader{
-			"data": {request.Data},
+		map[string]io.Reader{
+			"data": request.Data,
 		},
 		&response,
 	)

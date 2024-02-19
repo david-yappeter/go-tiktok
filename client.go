@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
-	"strconv"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -169,7 +168,7 @@ func (c *Client) requestJson(ctx context.Context, method, base, path string, par
 	return
 }
 
-func (c *Client) requestMultipart(ctx context.Context, method, base, path string, param url.Values, fileParams map[string][]io.Reader, body interface{}) (err error) {
+func (c *Client) requestMultipart(ctx context.Context, method, base, path string, param url.Values, fileParams map[string]io.Reader, body interface{}) (err error) {
 	var req *http.Request
 	target := base + path + "?" + param.Encode()
 	c.opt.logger.Printf("%s %s", method, target)
@@ -177,16 +176,14 @@ func (c *Client) requestMultipart(ctx context.Context, method, base, path string
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)
 
-	for paramName, files := range fileParams {
-		for i, file := range files {
-			fileWriter, err := bodyWriter.CreateFormFile(paramName+strconv.Itoa(i), filepath.Base(paramName+strconv.Itoa(i)))
-			if err != nil {
-				return err
-			}
-			_, err = io.Copy(fileWriter, file)
-			if err != nil {
-				return err
-			}
+	for paramName, file := range fileParams {
+		fileWriter, err := bodyWriter.CreateFormFile(paramName, filepath.Base(paramName))
+		if err != nil {
+			return err
+		}
+		_, err = io.Copy(fileWriter, file)
+		if err != nil {
+			return err
 		}
 	}
 
