@@ -101,12 +101,12 @@ type CreateProductRequest struct {
 	Description       string                                 `json:"description"`
 	CategoryId        string                                 `json:"category_id"`
 	BrandId           *string                                `json:"brand_id,omitempty"`
-	MainImages        []CreateProductRequestMainImage        `json:"main_images"`
-	Skus              []CreateProductRequestSku              `json:"skus"`
+	MainImages        []CreateProductRequestMainImage        `json:"main_images,omitempty"`
+	Skus              []CreateProductRequestSku              `json:"skus,omitempty"`
 	Title             string                                 `json:"title"`
 	IsCodAllowed      bool                                   `json:"is_cod_allowed"`
 	PackageDimensions *PackageDimensions                     `json:"package_dimensions,omitempty"`
-	ProductAttributes []CreateProductRequestProductAttribute `json:"product_attribute"`
+	ProductAttributes []CreateProductRequestProductAttribute `json:"product_attribute,omitempty"`
 	PackageWeight     PackageWeight                          `json:"package_weight"`
 	Video             *CreateProductRequestVideo             `json:"video,omitempty"`
 	SizeChart         *CreateProductRequestSizeChart         `json:"size_chart,omitempty"`
@@ -117,8 +117,8 @@ type CreateProductRequestMainImage struct {
 }
 
 type CreateProductRequestSku struct {
-	Inventory []CreateProductRequestSkuInventory `json:"inventory"`
-	SellerSku *string                            `json:"seller_sku"`
+	Inventory []CreateProductRequestSkuInventory `json:"inventory,omitempty"`
+	SellerSku *string                            `json:"seller_sku,omitempty"`
 
 	Price CreateProductRequestSkuPrice `json:"price"`
 }
@@ -134,7 +134,7 @@ type CreateProductRequestSkuPrice struct {
 }
 
 type CreateProductRequestSizeChart struct {
-	Image *CreateProductRequestSizeChartImage `json:"image"`
+	Image *CreateProductRequestSizeChartImage `json:"image,omitempty"`
 }
 
 type CreateProductRequestSizeChartImage struct {
@@ -143,12 +143,12 @@ type CreateProductRequestSizeChartImage struct {
 
 type CreateProductRequestProductAttribute struct {
 	Id     string                                      `json:"id"`
-	Values []CreateProductRequestProductAttributeValue `json:"values"`
+	Values []CreateProductRequestProductAttributeValue `json:"values,omitempty"`
 }
 
 type CreateProductRequestProductAttributeValue struct {
-	Id   *string `json:"id"`
-	Name *string `json:"name"`
+	Id   *string `json:"id,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 type CreateProductRequestPackageWeight struct {
