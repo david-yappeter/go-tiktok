@@ -120,7 +120,7 @@ type CreateProductRequestSku struct {
 	Inventory []CreateProductRequestSkuInventory `json:"inventory"`
 	SellerSku *string                            `json:"seller_sku"`
 
-	Price CreateProductRequestSkuPrice `json:"original_price"`
+	Price CreateProductRequestSkuPrice `json:"price"`
 }
 
 type CreateProductRequestSkuInventory struct {
