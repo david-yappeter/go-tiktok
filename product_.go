@@ -98,18 +98,18 @@ type CreateProductRequest struct {
 		AS_DRAFT, LISTING
 		DEFAULT: LISTING
 	*/
-	Description       string                               `json:"description"`
-	CategoryId        string                               `json:"category_id"`
-	BrandId           *string                              `json:"brand_id"`
-	MainImages        []CreateProductRequestMainImage      `json:"main_images"`
-	Skus              []CreateProductRequestSku            `json:"skus"`
-	Title             string                               `json:"title"`
-	IsCodAllowed      bool                                 `json:"is_cod_allowed"`
-	PackageDimensions *PackageDimensions                   `json:"package_dimensions"`
-	ProductAttributes CreateProductRequestProductAttribute `json:"product_attribute"`
-	PackageWeight     PackageWeight                        `json:"package_weight"`
-	Video             *CreateProductRequestVideo           `json:"video"`
-	SizeChart         *CreateProductRequestSizeChart       `json:"size_chart"`
+	Description       string                                 `json:"description"`
+	CategoryId        string                                 `json:"category_id"`
+	BrandId           *string                                `json:"brand_id"`
+	MainImages        []CreateProductRequestMainImage        `json:"main_images"`
+	Skus              []CreateProductRequestSku              `json:"skus"`
+	Title             string                                 `json:"title"`
+	IsCodAllowed      bool                                   `json:"is_cod_allowed"`
+	PackageDimensions *PackageDimensions                     `json:"package_dimensions"`
+	ProductAttributes []CreateProductRequestProductAttribute `json:"product_attribute"`
+	PackageWeight     PackageWeight                          `json:"package_weight"`
+	Video             *CreateProductRequestVideo             `json:"video"`
+	SizeChart         *CreateProductRequestSizeChart         `json:"size_chart"`
 }
 
 type CreateProductRequestMainImage struct {
