@@ -16,15 +16,20 @@ func (c *Client) GetBrands(ctx context.Context, p CommonParam, cp CursorPaginati
 		return
 	}
 
-	if err = c.validate.Struct(&request); err != nil {
-		return
+	if request.BrandName != nil {
+		param.Set("brand_name", *request.BrandName)
+	}
+	if request.CategoryId != nil {
+		param.Set("category_id", *request.CategoryId)
+	}
+	if request.IsAuthorized != nil {
+		param.Set("is_authorized", fmt.Sprintf("%+v\n", *request.IsAuthorized))
 	}
 
-	err = c.Post(
+	err = c.Get(
 		ctx,
 		fmt.Sprintf("/product/%s/brands", c.version),
 		param,
-		request,
 		&response,
 	)
 	return
