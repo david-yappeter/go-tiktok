@@ -1,9 +1,9 @@
 package gotiktok
 
 type GetBrandsRequest struct {
-	CategoryId   *string `json:"category_id"`
-	IsAuthorized *bool   `json:"is_authorized"`
-	BrandName    *string `json:"brand_name"`
+	CategoryId   *string `json:"category_id,omitempty"`
+	IsAuthorized *bool   `json:"is_authorized,omitempty"`
+	BrandName    *string `json:"brand_name,omitempty"`
 }
 
 type GetBrandsResponse struct {

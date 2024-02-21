@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-func (c *Client) GetBrands(ctx context.Context, p CommonParam, cp CursorPaginationParam, request GetBrandsRequest) (response ProductList, err error) {
+func (c *Client) GetBrands(ctx context.Context, p CommonParam, cp CursorPaginationParam, request GetBrandsRequest) (response GetBrandsResponse, err error) {
 	var param url.Values
 	if param, err = c.commonParam(p); err != nil {
 		return
