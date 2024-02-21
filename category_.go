@@ -68,7 +68,7 @@ type GetAttributesResponseAttribute struct {
 		SALES_PROPERTY
 		PRODUCT_PROPERTY
 	*/
-	IsRequired          bool                                  `json:"is_required"`
+	IsRequired          bool                                  `json:"is_requried"`
 	Values              []GetAttributesResponseAttributeValue `json:"values"`
 	IsMultipleSelection bool                                  `json:"is_multiple_selection"`
 	IsCustomizable      bool                                  `json:"is_customizable"`
