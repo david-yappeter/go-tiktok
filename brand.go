@@ -22,7 +22,7 @@ func (c *Client) GetBrands(ctx context.Context, p CommonParam, cp CursorPaginati
 
 	err = c.Post(
 		ctx,
-		fmt.Sprintf("/product/%s/products/search", c.version),
+		fmt.Sprintf("/product/%s/brands", c.version),
 		param,
 		request,
 		&response,
