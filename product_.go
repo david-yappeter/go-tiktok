@@ -75,7 +75,7 @@ type ProductDetailData struct {
 	Status            string             `json:"status"`
 	Title             string             `json:"title"`
 	CategoryChains    []Category         `json:"category_chains"`
-	Brand             Brand              `json:"brand"`
+	Brand             *Brand             `json:"brand"`
 	MainImages        []Image            `json:"main_images"`
 	PackageDimensions PackageDimensions  `json:"package_dimensions"`
 	PackageWeight     PackageWeight      `json:"package_weight"`
