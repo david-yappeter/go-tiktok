@@ -124,3 +124,19 @@ func (c *Client) DeactivateProduct(ctx context.Context, p CommonParam, request D
 	)
 	return
 }
+
+func (c *Client) UpdateProduct(ctx context.Context, p CommonParam, productId string, request UpdateProductRequest) (response UpdateProductResponse, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products/%s", c.version, productId),
+		param,
+		request,
+		&response,
+	)
+	return
+}

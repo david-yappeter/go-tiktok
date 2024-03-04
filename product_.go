@@ -309,3 +309,139 @@ type DeactivateProductResponseError struct {
 type DeactivateProductResponseErrorDetail struct {
 	ProductId string `json:"product_id"`
 }
+
+type UpdateProductRequest struct {
+	Description       string                                 `json:"description"`
+	CategoryId        string                                 `json:"category_id"`
+	BrandId           string                                 `json:"brand_id"`
+	MainImages        []UpdateProductRequestMainImage        `json:"main_images"`
+	Skus              []UpdateProductRequestSku              `json:"skus"`
+	Title             string                                 `json:"title"`
+	IsCodAllowed      bool                                   `json:"is_cod_allowed"`
+	Certifications    []UpdateProductRequestCertification    `json:"certifications"`
+	PackageWeight     UpdateProductRequestPackageWeight      `json:"package_weight"`
+	ProductAttributes []UpdateProductRequestProductAttribute `json:"product_attributes"`
+	SizeChart         *UpdateProductRequestSizeChart         `json:"size_chart"`
+	PackageDimensions []UpdateProductRequestPackageDimension `json:"package_dimensions"`
+	ExternalProductId *string                                `json:"external_product_id"`
+	DeliveryOptionIds []string                               `json:"delivery_option_ids"`
+	Video             *UpdateProductRequestVideo             `json:"video"`
+}
+
+type UpdateProductRequestMainImage struct {
+	Uri string `json:"uri"`
+}
+
+type UpdateProductRequestSku struct {
+	Id             *string                                 `json:"id"`
+	SalesAtributes []UpdateProductRequestSkuSalesAttribute `json:"sales_attributes"`
+	SellerSku      *string                                 `json:"seller_sku"`
+	Price          UpdateProductRequestSkuPrice            `json:"price"`
+	ExternalSkuId  *string                                 `json:"external_sku_id"`
+	IdentifierCode *UpdateProductRequestSkuIdentifierCode  `json:"identifier_code"`
+	Inventory      []UpdateProductRequestSkuInventory      `json:"inventory"`
+}
+
+type UpdateProductRequestSkuSalesAttribute struct {
+	Id        *string                                      `json:"id"`
+	Name      *string                                      `json:"name"`
+	ValudId   *string                                      `json:"value_id"`
+	ValueName *string                                      `json:"value_name"`
+	SkuImg    *UpdateProductRequestSkuSalesAttributeSkuImg `json:"sku_img"`
+}
+
+type UpdateProductRequestSkuSalesAttributeSkuImg struct {
+	Uri string `json:"uri"`
+}
+
+type UpdateProductRequestSkuPrice struct {
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
+}
+
+type UpdateProductRequestSkuIdentifierCode struct {
+	Code *string `json:"code"`
+	Type *string `json:"type"`
+}
+
+type UpdateProductRequestSkuInventory struct {
+	WarehouseId string `json:"warehouse_id"`
+	Quantity    int    `json:"quantity"`
+}
+
+type UpdateProductRequestCertification struct {
+	Id     string                                   `json:"id"`
+	Images []UpdateProductRequestCertificationImage `json:"images"`
+	Files  []UpdateProductRequestCertificationFile  `json:"files"`
+}
+
+type UpdateProductRequestCertificationImage struct {
+	Uri string `json:"uri"`
+}
+
+type UpdateProductRequestCertificationFile struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	Format string `json:"format"`
+}
+
+type UpdateProductRequestPackageWeight struct {
+	Value string `json:"value"`
+	Unit  string `json:"unit"`
+}
+
+type UpdateProductRequestProductAttribute struct {
+	Id     string                                      `json:"id"`
+	Values []UpdateProductRequestProductAttributeValue `json:"values"`
+}
+
+type UpdateProductRequestProductAttributeValue struct {
+	Id   *string `json:"id"`
+	Name *string `json:"name"`
+}
+
+type UpdateProductRequestSizeChart struct {
+	Image    *UpdateProductRequestSizeChartImage    `json:"image"`
+	Template *UpdateProductRequestSizeChartTemplate `json:"template"`
+}
+
+type UpdateProductRequestSizeChartImage struct {
+	Uri string `json:"uri"`
+}
+
+type UpdateProductRequestSizeChartTemplate struct {
+	Id string `json:"id"`
+}
+
+type UpdateProductRequestPackageDimension struct {
+	Height string `json:"height"`
+	Length string `json:"length"`
+	Unit   string `json:"unit"`
+	Width  string `json:"width"`
+}
+
+type UpdateProductRequestVideo struct {
+	Id string `json:"id"`
+}
+
+type UpdateProductResponse struct {
+	ProductId string                         `json:"product_id"`
+	Skus      []UpdateProductResponseSku     `json:"skus"`
+	Warnings  []UpdateProductResponseWarning `json:"warnings"`
+}
+
+type UpdateProductResponseSku struct {
+	Id              string                                   `json:"id"`
+	SellerSku       string                                   `json:"seller_sku"`
+	SalesAttributes []UpdateProductResponseSkuSalesAttribute `json:"sales_attributes"`
+	ExternalSkuId   string                                   `json:"external_sku_id"`
+}
+
+type UpdateProductResponseSkuSalesAttribute struct {
+	Id      string `json:"id"`
+	ValueId string `json:"value_id"`
+}
+
+type UpdateProductResponseWarning struct {
+	Message string `json:"message"`
+}
