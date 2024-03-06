@@ -313,7 +313,7 @@ type DeactivateProductResponseErrorDetail struct {
 type UpdateProductRequest struct {
 	Description       string                                 `json:"description"`
 	CategoryId        string                                 `json:"category_id"`
-	BrandId           string                                 `json:"brand_id"`
+	BrandId           *string                                `json:"brand_id"`
 	MainImages        []UpdateProductRequestMainImage        `json:"main_images"`
 	Skus              []UpdateProductRequestSku              `json:"skus"`
 	Title             string                                 `json:"title"`
@@ -322,7 +322,7 @@ type UpdateProductRequest struct {
 	PackageWeight     UpdateProductRequestPackageWeight      `json:"package_weight"`
 	ProductAttributes []UpdateProductRequestProductAttribute `json:"product_attributes"`
 	SizeChart         *UpdateProductRequestSizeChart         `json:"size_chart"`
-	PackageDimensions []UpdateProductRequestPackageDimension `json:"package_dimensions"`
+	PackageDimensions *UpdateProductRequestPackageDimension  `json:"package_dimensions"`
 	ExternalProductId *string                                `json:"external_product_id"`
 	DeliveryOptionIds []string                               `json:"delivery_option_ids"`
 	Video             *UpdateProductRequestVideo             `json:"video"`
