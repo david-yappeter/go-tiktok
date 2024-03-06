@@ -131,7 +131,7 @@ func (c *Client) UpdateProduct(ctx context.Context, p CommonParam, productId str
 		return
 	}
 
-	err = c.Post(
+	err = c.Put(
 		ctx,
 		fmt.Sprintf("/product/%s/products/%s", c.version, productId),
 		param,
