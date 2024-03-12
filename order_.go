@@ -46,6 +46,7 @@ type OrderLineItem struct {
 	PlatformDiscount     string `json:"platform_discount"`
 	RTSTime              int    `json:"rts_time"`
 	SalePrice            string `json:"sale_price"`
+	SellerSku            string `json:"seller_sku"`
 	SellerDiscount       string `json:"seller_discount"`
 	ShippingProviderId   string `json:"shipping_provider_id"`
 	ShippingProviderName string `json:"shipping_provider_name"`
