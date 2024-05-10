@@ -112,6 +112,21 @@ type CreateProductRequest struct {
 	SizeChart         *CreateProductRequestSizeChart         `json:"size_chart,omitempty"`
 }
 
+type ListingCheckProductRequest struct {
+	Description       string                                 `json:"description"`
+	CategoryId        string                                 `json:"category_id"`
+	BrandId           *string                                `json:"brand_id,omitempty"`
+	MainImages        []CreateProductRequestMainImage        `json:"main_images,omitempty"`
+	Skus              []CreateProductRequestSku              `json:"skus,omitempty"`
+	Title             string                                 `json:"title"`
+	IsCodAllowed      bool                                   `json:"is_cod_allowed"`
+	PackageDimensions *PackageDimensions                     `json:"package_dimensions,omitempty"`
+	ProductAttributes []CreateProductRequestProductAttribute `json:"product_attribute,omitempty"`
+	PackageWeight     PackageWeight                          `json:"package_weight"`
+	Video             *CreateProductRequestVideo             `json:"video,omitempty"`
+	SizeChart         *CreateProductRequestSizeChart         `json:"size_chart,omitempty"`
+}
+
 type CreateProductRequestMainImage struct {
 	Uri string `json:"uri"`
 }
@@ -213,6 +228,16 @@ type CreateProductResponseSkuSalesAttribute struct {
 }
 
 type CreateProductResponseWarning struct {
+	Message string `json:"message"`
+}
+
+type ListingCheckProductResponse struct {
+	CheckResult string                                  `json:"check_result"`
+	FailReasons []ListingCheckProductResponseFailReason `json:"fail_reasons"`
+	Warnings    []CreateProductResponseWarning          `json:"warnings"`
+}
+
+type ListingCheckProductResponseFailReason struct {
 	Message string `json:"message"`
 }
 

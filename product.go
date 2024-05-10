@@ -61,6 +61,22 @@ func (c *Client) CreateProduct(ctx context.Context, p CommonParam, request Creat
 	return
 }
 
+func (c *Client) ListingCheckProduct(ctx context.Context, p CommonParam, request ListingCheckProductRequest) (response ListingCheckProductResponse, err error) {
+	var param url.Values
+	if param, err = c.commonParam(p); err != nil {
+		return
+	}
+
+	err = c.Post(
+		ctx,
+		fmt.Sprintf("/product/%s/products/listing_check", c.version),
+		param,
+		request,
+		&response,
+	)
+	return
+}
+
 func (c *Client) UpdateProductInventory(ctx context.Context, p CommonParam, productId string, request UpdateProductInventoryRequest) (response UpdateProductInventoryResponse, err error) {
 	var param url.Values
 	if param, err = c.commonParam(p); err != nil {
