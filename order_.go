@@ -20,6 +20,7 @@ type RecipientAddress struct {
 }
 
 type Payment struct {
+	BuyerServiceFee             string `json:"buyer_service_fee"`
 	Currency                    string `json:"currency"`
 	OriginalTotalProductPrice   string `json:"original_total_product_price"`
 	OriginalShippingFee         string `json:"original_shipping_fee"`
